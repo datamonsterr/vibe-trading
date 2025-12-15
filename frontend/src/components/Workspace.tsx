@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { stockApi, analysisApi, orderApi } from '@/lib/api';
+import { stockApi, orderApi } from '@/lib/api';
 import { StockData, Order } from '@/types';
 import { TrendingUp, TrendingDown, Activity, FileText, ShoppingCart } from 'lucide-react';
 
