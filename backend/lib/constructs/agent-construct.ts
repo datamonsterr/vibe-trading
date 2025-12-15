@@ -6,6 +6,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
+import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as path from 'path';
 
 export interface AgentConstructProps {
@@ -127,7 +128,7 @@ export class AgentConstruct extends Construct {
     }
 
     // Prepare environment variables
-    const environment = {
+    const environment: { [key: string]: string } = {
       ...(props.environment || {}),
       AGENT_NAME: props.agentName,
     };
@@ -183,8 +184,7 @@ export class AgentConstruct extends Construct {
     // Add SQS trigger if queue exists
     if (this.queue) {
       this.lambda.addEventSource(
-        new lambda.EventSourceMapping(this, 'SqsEventSource', {
-          eventSourceArn: this.queue.queueArn,
+        new SqsEventSource(this.queue, {
           batchSize: 10,
           maxBatchingWindow: cdk.Duration.seconds(5),
         })
