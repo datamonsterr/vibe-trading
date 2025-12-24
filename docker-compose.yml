@@ -1,6 +1,7 @@
 services:
   # PostgreSQL + TimescaleDB
   database:
+    profiles: ["dev", "full"]
     image: timescale/timescaledb:latest-pg16
     container_name: quantflow_database
     environment:
@@ -24,6 +25,7 @@ services:
 
   # Redis Cache
   redis:
+    profiles: ["dev", "full"]
     image: redis:7-alpine
     container_name: quantflow_redis
     ports:
@@ -40,6 +42,7 @@ services:
 
   # Qdrant Vector Database
   qdrant:
+    profiles: ["dev", "full"]
     image: qdrant/qdrant:latest
     container_name: quantflow_qdrant
     ports:
@@ -56,6 +59,7 @@ services:
 
   # FastAPI Backend
   backend:
+    profiles: ["full"]
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -93,6 +97,7 @@ services:
 
   # React Frontend
   frontend:
+    profiles: ["full"]
     build:
       context: ./frontend
       dockerfile: Dockerfile
