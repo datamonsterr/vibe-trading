@@ -45,18 +45,15 @@ jobs:
         run: |
           uv pip install --system -r requirements-dev.txt
 
-      - name: Run flake8
-        working-directory: ./backend
+      - name: Check backend formatting
         run: |
-          flake8 app/ tests/
+          ./scripts/format-check.sh
 
-      - name: Run black check
-        working-directory: ./backend
+      - name: Lint backend code
         run: |
-          black --check app/ tests/
+          ./scripts/lint.sh
 
-      - name: Run unit tests
-        working-directory: ./backend
+      - name: Run backend tests
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
@@ -64,18 +61,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         run: |
-          pytest tests/unit -v --cov=app --cov-report=xml
-
-      - name: Run integration tests
-        working-directory: ./backend
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_DB: quantflow_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        run: |
-          pytest tests/integration -v
+          ./scripts/test.sh
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -104,17 +90,13 @@ jobs:
         run: |
           yarn install --frozen-lockfile
 
-      - name: Run ESLint
-        working-directory: ./frontend
+      - name: Run frontend code quality checks
         run: |
+          cd ./frontend
           yarn lint
-
-      - name: Run Prettier check
-        working-directory: ./frontend
-        run: |
           yarn format --check
 
-      - name: Run tests
+      - name: Run frontend tests
         working-directory: ./frontend
         run: |
           yarn test --run --coverage

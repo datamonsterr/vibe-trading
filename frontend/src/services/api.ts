@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -13,7 +13,7 @@ export const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
+    console.error('API Error:', error.response?.data || error.message);
     return Promise.reject(error);
   }
 );
@@ -39,12 +39,11 @@ export interface CalculationResponse {
 
 // API functions
 export const api = {
-  health: () => apiClient.get<HealthResponse>("/health"),
-  root: () => apiClient.get<RootResponse>("/"),
-  add: (data: CalculationRequest) =>
-    apiClient.post<CalculationResponse>("/calculate/add", data),
+  health: () => apiClient.get<HealthResponse>('/health'),
+  root: () => apiClient.get<RootResponse>('/'),
+  add: (data: CalculationRequest) => apiClient.post<CalculationResponse>('/calculate/add', data),
   multiply: (data: CalculationRequest) =>
-    apiClient.post<CalculationResponse>("/calculate/multiply", data),
+    apiClient.post<CalculationResponse>('/calculate/multiply', data),
 };
 
 export { API_BASE_URL };

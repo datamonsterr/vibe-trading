@@ -1,4 +1,5 @@
 """Integration tests for API endpoints."""
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -22,9 +23,7 @@ def test_api_integration() -> None:
     assert add_response.status_code == 200
     assert add_response.json()["result"] == 15
 
-    multiply_response = client.post(
-        "/calculate/multiply", json={"a": 4, "b": 7}
-    )
+    multiply_response = client.post("/calculate/multiply", json={"a": 4, "b": 7})
     assert multiply_response.status_code == 200
     assert multiply_response.json()["result"] == 28
 

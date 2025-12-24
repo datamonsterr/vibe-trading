@@ -1,4 +1,5 @@
 """Unit tests for main application."""
+
 from fastapi.testclient import TestClient
 
 from app.main import add, app, multiply

@@ -24,11 +24,7 @@ function App() {
               Loading...
             </div>
           )}
-          {error && (
-            <div className="text-red-600">
-              ❌ Error: Unable to connect to API
-            </div>
-          )}
+          {error && <div className="text-red-600">❌ Error: Unable to connect to API</div>}
           {data && (
             <div className="text-green-600 flex items-center">
               ✓ Connected - Status: {data.status}
