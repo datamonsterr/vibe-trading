@@ -21,8 +21,8 @@ class RootResponse(BaseModel):
 class CalculationRequest(BaseModel):
     """Calculation request model."""
 
-    a: int = Field(..., description="First number", example=5)
-    b: int = Field(..., description="Second number", example=3)
+    a: int = Field(..., description="First number")
+    b: int = Field(..., description="Second number")
 
 
 class CalculationResponse(BaseModel):

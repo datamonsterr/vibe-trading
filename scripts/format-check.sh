@@ -10,11 +10,11 @@ echo "🔍 Checking code formatting..."
 # Check backend formatting with black
 echo "  → Checking backend formatting with black..."
 cd "$BACKEND_DIR"
-./.venv/bin/black --check app/ tests/
+black --check app/ tests/
 
 # Check frontend formatting with prettier
 echo "  → Checking frontend formatting with prettier..."
 cd "$FRONTEND_DIR"
-yarn format --check
+yarn format:check
 
 echo "✅ All formatting checks passed!"

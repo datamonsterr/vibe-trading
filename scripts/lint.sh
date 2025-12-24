@@ -10,7 +10,7 @@ echo "🔎 Linting backend and frontend code..."
 # Lint backend with flake8
 echo "  → Linting backend with flake8..."
 cd "$BACKEND_DIR"
-./.venv/bin/flake8 app/ tests/
+flake8 app/ tests/
 
 # Lint frontend with ESLint
 echo "  → Linting frontend with ESLint..."
