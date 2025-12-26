@@ -5,7 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/quantflow")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+asyncpg://postgres:postgres@localhost:5432/quantflow",
+)
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 
@@ -16,6 +19,7 @@ AsyncSessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
 
 async def get_db():
     async with AsyncSessionLocal() as session:

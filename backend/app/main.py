@@ -3,6 +3,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from contextlib import asynccontextmanager
+from app.workers.market_worker import MarketWorker
+from app.api import auth
 
 
 class HealthResponse(BaseModel):
@@ -32,10 +35,8 @@ class CalculationResponse(BaseModel):
     operation: str = Field(..., description="Operation performed")
 
 
-from contextlib import asynccontextmanager
-from app.workers.market_worker import MarketWorker
-
 market_worker = MarketWorker()
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -45,7 +46,6 @@ async def lifespan(app: FastAPI):
     # Shutdown
     await market_worker.stop()
 
-from app.api import auth
 
 app = FastAPI(
     title="QuantFlow API",

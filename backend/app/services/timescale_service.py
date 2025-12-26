@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class TimescaleService:
     def __init__(self, db: AsyncSession):
         self.db = db
