@@ -1,8 +1,6 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: ['**']
   pull_request:
     branches: ['**']
 
@@ -46,14 +44,17 @@ jobs:
           uv pip install --system -r requirements-dev.txt
 
       - name: Check backend formatting
+        working-directory: ./backend
         run: |
-          ./scripts/format-check.sh
+          uv run black --check .
 
       - name: Lint backend code
+        working-directory: ./backend
         run: |
-          ./scripts/lint.sh
+          uv run flake8
 
       - name: Run backend tests
+        working-directory: ./backend
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
@@ -61,7 +62,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         run: |
-          ./scripts/test.sh
+          uv run pytest tests/unit -v --cov=app --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -130,26 +131,26 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker-compose build
+          docker compose build
 
       - name: Start services
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 30
 
       - name: Check services health
         run: |
-          docker-compose ps
+          docker compose ps
           curl -f http://localhost:8000/health || exit 1
           curl -f http://localhost:3000 || exit 1
 
       - name: Run backend integration tests in Docker
         run: |
-          docker-compose exec -T backend pytest tests/integration -v
+          docker compose exec -T backend pytest tests/integration -v
 
       - name: Stop services
         run: |
-          docker-compose down -v
+          docker compose down -v
 
   # CI Success Check
   ci-success:

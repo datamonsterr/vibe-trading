@@ -87,15 +87,18 @@ Establish core infrastructure and data ingestion pipelines.
 ---
 
 ### Task 1.2 (Days 4-6): Market Data Ingestion (DNSE)
-**Status**: ⬜ Not Started
+**Status**: ✅ Completed
 
 **Deliverables**:
-- Implement Python `DNSEClient` for Entrade X WebSocket API
-- Create background worker (Celery/asyncio) for STOCK_INFO topic subscription
-- Batch insert ticks into TimescaleDB
-- Error handling and reconnection logic
+- ✅ Implement Python `DNSEClient` (Migrated to use `vnstock` library)
+- ✅ Create background worker (`MarketWorker`) for data polling
+- ✅ Batch insert ticks into TimescaleDB
+- ✅ Error handling and reconnection logic
 
 **Notes**:
+- Migrated from raw DNSE WebSocket to `vnstock` library for easier maintenance and API compatibility.
+- Implemented `VNStockService` to abstract `vnstock` usage.
+- Used polling mechanism as `vnstock` (free tier/public) does not support WebSocket streaming for all data types or is limited.
 
 ---
 
@@ -226,8 +229,10 @@ Build drag-and-drop strategy builder and execution engine.
 - Graph parsing and topological sort (networkx)
 - Execute methods for all node types
 - Async execution support
+- **Integrate `pandas-ta` for technical analysis strategy blocks**
 
 **Notes**:
+- Use `pandas-ta` library to simplify indicator calculations as requested by user.
 
 ---
 
