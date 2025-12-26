@@ -32,11 +32,29 @@ class CalculationResponse(BaseModel):
     operation: str = Field(..., description="Operation performed")
 
 
+from contextlib import asynccontextmanager
+from app.workers.market_worker import MarketWorker
+
+market_worker = MarketWorker()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await market_worker.start()
+    yield
+    # Shutdown
+    await market_worker.stop()
+
+from app.api import auth
+
 app = FastAPI(
     title="QuantFlow API",
     description="Algorithmic Trading & Financial Intelligence Platform",
     version="0.1.0",
+    lifespan=lifespan,
 )
+
+app.include_router(auth.router)
 
 # CORS middleware
 app.add_middleware(
